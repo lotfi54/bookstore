@@ -1,11 +1,11 @@
 <template>
     <v-container >
  <v-data-table
-   
+   flat
     :headers="headers"
     :items="auteurs"
-    sort-by="calories"
-    class="elevation-3"
+   
+    class="elevation-0"
      item-key="name"
  
      :loading="loading"
@@ -13,7 +13,7 @@
     <template v-slot:top>
       <v-toolbar
    elevation="0"
-          flat
+          black
       >
         <v-toolbar-title>Gestion des auteurs</v-toolbar-title>
         <v-divider
@@ -28,8 +28,8 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="dark"
-              dark
+             color="indigo"
+              outlined
               class="mb-2"
               v-bind="attrs"
               v-on="on"

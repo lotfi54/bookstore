@@ -3004,13 +3004,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       snackbar: false,
       text: '',
       date: '',
+      date2: '',
       menu: false,
+      modal: false,
+      modal2: false,
       dialog: false,
       dialogDelete: false,
       auteurs: [],
@@ -3146,8 +3161,8 @@ __webpack_require__.r(__webpack_exports__);
         var index = this.editedIndex;
         axios.put('/api/livre/' + this.editedItem.id, this.editedItem).then(function (response) {
           _this5.text = "Le genre a été modifié";
-          _this5.snackbar = true; //   Object.assign(this.genres.data[index], response.data.genre)
-          //    this.genres.push(response.data.genre)
+          _this5.snackbar = true; //   Object.assign(this.livres.data[index], response.data.livre)
+          //    this.genres.push(response.data.livre)
         })["catch"](function (err) {
           console.log(err.response);
           _this5.text = "Une erreur à été trouvé";
@@ -3158,7 +3173,7 @@ __webpack_require__.r(__webpack_exports__);
           _this5.text = "Le livre a été ajouté";
           _this5.snackbar = true;
 
-          _this5.genres.push(response.data.genre);
+          _this5.livres.push(response.data.livre);
         })["catch"](function (err) {
           console.log(err.response);
           _this5.text = "Une erreur à été trouvé";
@@ -43181,11 +43196,11 @@ var render = function() {
       _c(
         "v-data-table",
         {
-          staticClass: "elevation-3",
+          staticClass: "elevation-0",
           attrs: {
+            flat: "",
             headers: _vm.headers,
             items: _vm.auteurs,
-            "sort-by": "calories",
             "item-key": "name",
             loading: _vm.loading
           },
@@ -43196,7 +43211,7 @@ var render = function() {
                 return [
                   _c(
                     "v-toolbar",
-                    { attrs: { elevation: "0", flat: "" } },
+                    { attrs: { elevation: "0", black: "" } },
                     [
                       _c("v-toolbar-title", [_vm._v("Gestion des auteurs")]),
                       _vm._v(" "),
@@ -43224,7 +43239,10 @@ var render = function() {
                                       _vm._b(
                                         {
                                           staticClass: "mb-2",
-                                          attrs: { color: "dark", dark: "" }
+                                          attrs: {
+                                            color: "indigo",
+                                            outlined: ""
+                                          }
                                         },
                                         "v-btn",
                                         attrs,
@@ -43711,7 +43729,7 @@ var render = function() {
     "v-container",
     [
       _c("v-data-table", {
-        staticClass: "elevation-3",
+        staticClass: "elevation-0",
         attrs: {
           headers: _vm.headers,
           items: _vm.genres,
@@ -43754,7 +43772,7 @@ var render = function() {
                                     _vm._b(
                                       {
                                         staticClass: "mb-2",
-                                        attrs: { color: "dark", dark: "" }
+                                        attrs: { color: "indigo", outlined: "" }
                                       },
                                       "v-btn",
                                       attrs,
@@ -44167,7 +44185,7 @@ var render = function() {
                           _vm._b(
                             {
                               staticClass: "mb-2",
-                              attrs: { color: "dark", dark: "" }
+                              attrs: { color: "indigo", outlined: "" }
                             },
                             "v-btn",
                             attrs,
@@ -44275,6 +44293,302 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c(
+                                    "v-dialog",
+                                    {
+                                      ref: "dialog",
+                                      attrs: {
+                                        "return-value": _vm.date,
+                                        persistent: "",
+                                        width: "290px"
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.date = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.date = $event
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label: "Date d'achat",
+                                                        readonly: ""
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .date_achat,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "date_achat",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.date_achat"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.modal,
+                                        callback: function($$v) {
+                                          _vm.modal = $$v
+                                        },
+                                        expression: "modal"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-date-picker",
+                                        {
+                                          attrs: { scrollable: "" },
+                                          model: {
+                                            value: _vm.editedItem.date_achat,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.editedItem,
+                                                "date_achat",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "editedItem.date_achat"
+                                          }
+                                        },
+                                        [
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.modal = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n            Cancel\n          "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$refs.dialog.save(
+                                                    _vm.date
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n            OK\n          "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c(
+                                    "v-dialog",
+                                    {
+                                      ref: "dialog2",
+                                      attrs: {
+                                        "return-value": _vm.date2,
+                                        persistent: "",
+                                        width: "290px"
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.date2 = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.date2 = $event
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label:
+                                                          "Date de parution",
+                                                        readonly: ""
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.editedItem
+                                                            .date_parution,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.editedItem,
+                                                            "date_parution",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "editedItem.date_parution"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.modal2,
+                                        callback: function($$v) {
+                                          _vm.modal2 = $$v
+                                        },
+                                        expression: "modal2"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-date-picker",
+                                        {
+                                          attrs: { scrollable: "" },
+                                          model: {
+                                            value: _vm.editedItem.date_parution,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.editedItem,
+                                                "date_parution",
+                                                $$v
+                                              )
+                                            },
+                                            expression:
+                                              "editedItem.date_parution"
+                                          }
+                                        },
+                                        [
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.modal2 = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n            Cancel\n          "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$refs.dialog2.save(
+                                                    _vm.date2
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n            OK\n          "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
                                 { attrs: { cols: "12", sm: "12" } },
                                 [
                                   _c("v-text-field", {
@@ -44349,198 +44663,6 @@ var render = function() {
                                       expression: "editedItem.nbr_pages"
                                     }
                                   })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "12", sm: "12" } },
-                                [
-                                  _c(
-                                    "v-menu",
-                                    {
-                                      ref: "menu",
-                                      attrs: {
-                                        "close-on-content-click": false,
-                                        transition: "scale-transition",
-                                        "offset-y": "",
-                                        "min-width": "auto"
-                                      },
-                                      scopedSlots: _vm._u([
-                                        {
-                                          key: "activator",
-                                          fn: function(ref) {
-                                            var on = ref.on
-                                            var attrs = ref.attrs
-                                            return [
-                                              _c(
-                                                "v-text-field",
-                                                _vm._g(
-                                                  _vm._b(
-                                                    {
-                                                      attrs: {
-                                                        label:
-                                                          "Date de parution",
-                                                        readonly: ""
-                                                      },
-                                                      model: {
-                                                        value:
-                                                          _vm.editedItem
-                                                            .date_achat,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.$set(
-                                                            _vm.editedItem,
-                                                            "date_achat",
-                                                            $$v
-                                                          )
-                                                        },
-                                                        expression:
-                                                          "editedItem.date_achat"
-                                                      }
-                                                    },
-                                                    "v-text-field",
-                                                    attrs,
-                                                    false
-                                                  ),
-                                                  on
-                                                )
-                                              )
-                                            ]
-                                          }
-                                        }
-                                      ]),
-                                      model: {
-                                        value: _vm.menu,
-                                        callback: function($$v) {
-                                          _vm.menu = $$v
-                                        },
-                                        expression: "menu"
-                                      }
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("v-date-picker", {
-                                        ref: "picker1",
-                                        attrs: {
-                                          max: new Date()
-                                            .toISOString()
-                                            .substr(0, 10),
-                                          min: "1950-01-01"
-                                        },
-                                        model: {
-                                          value: _vm.editedItem.date_achat,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.editedItem,
-                                              "date_achat",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "editedItem.date_achat"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "12", sm: "12" } },
-                                [
-                                  _c(
-                                    "v-menu",
-                                    {
-                                      ref: "menu",
-                                      attrs: {
-                                        "close-on-content-click": false,
-                                        transition: "scale-transition",
-                                        "offset-y": "",
-                                        "min-width": "auto"
-                                      },
-                                      scopedSlots: _vm._u([
-                                        {
-                                          key: "activator",
-                                          fn: function(ref) {
-                                            var on = ref.on
-                                            var attrs = ref.attrs
-                                            return [
-                                              _c(
-                                                "v-text-field",
-                                                _vm._g(
-                                                  _vm._b(
-                                                    {
-                                                      attrs: {
-                                                        label:
-                                                          "Date de parution",
-                                                        readonly: ""
-                                                      },
-                                                      model: {
-                                                        value:
-                                                          _vm.editedItem
-                                                            .date_parution,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.$set(
-                                                            _vm.editedItem,
-                                                            "date_parution",
-                                                            $$v
-                                                          )
-                                                        },
-                                                        expression:
-                                                          "editedItem.date_parution"
-                                                      }
-                                                    },
-                                                    "v-text-field",
-                                                    attrs,
-                                                    false
-                                                  ),
-                                                  on
-                                                )
-                                              )
-                                            ]
-                                          }
-                                        }
-                                      ]),
-                                      model: {
-                                        value: _vm.menu,
-                                        callback: function($$v) {
-                                          _vm.menu = $$v
-                                        },
-                                        expression: "menu"
-                                      }
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("v-date-picker", {
-                                        ref: "picker",
-                                        attrs: {
-                                          max: new Date()
-                                            .toISOString()
-                                            .substr(0, 10),
-                                          min: "1950-01-01"
-                                        },
-                                        model: {
-                                          value: _vm.editedItem.date_parution,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.editedItem,
-                                              "date_parution",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "editedItem.date_parution"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
                                 ],
                                 1
                               ),
@@ -44770,7 +44892,7 @@ var render = function() {
     [
       _c(
         "v-app-bar",
-        { attrs: { app: "", flat: "", white: "" } },
+        { attrs: { app: "", flat: "", color: "white" } },
         [
           _c("v-app-bar-nav-icon", {
             on: {

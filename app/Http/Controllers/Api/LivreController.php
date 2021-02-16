@@ -6,7 +6,10 @@ use App\Models\Genre;
 use App\Models\Auteur;
 use App\Models\Livres;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LivreController extends Controller
 {
@@ -40,9 +43,56 @@ class LivreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'titre' => 'required',
+           
+            'auteur' => 'required',
+            'genre' => 'required',
+            'date_achat' => 'required',
+            'date_parution' => 'required',
+            'date_parution' => 'required',
+            'langue_livre' => 'required',
+            'isbn' => 'required',
+            'nbr_pages' => 'required',
+            'annee' => 'required',
+        ]);
+        $photo = $request->file('photo');
+   
+        if(isset($photo))
+        {
+//            make unipue name for image
+            $currentDate = Carbon::now()->toDateString();
+            $imageName  = $slug.'-'.$currentDate.'-'.uniqid().'.'.$photo->getClientOriginalExtension();
+
+            if(!Storage::disk('public')->exists('livre'))
+            {
+                Storage::disk('public')->makeDirectory('livre');
+            }
+
+            $livreImage = Image::make($photo)->resize(1600,1066)->save();
+            Storage::disk('public')->put('livre/'.$imageName,$livreImage);
+
+        } else {
+            $imageName = "default.png";
+        }
+        $livre = new Livre();
+        $livre->user_id = Auth::id();
+        $livre->title = $request->title;
+        $livre->date_achat = $request->date_achat;
+        $livre->date_parution = $request->date_parution;
+        $livre->langue_livre = $request->langue_livre;
+        $livre->annee = $request->annee;
+        $livre->isbn = $request->isbn;
+        $livre->nbr_pages = $request->nbr_pages;
+        $livre->photo = $imageName;
+        $livre->save();
+
+        $livre->genres()->attach($request->genres);
+        $livre->auteur()->attach($request->auteur);
+
+   return response()->json(['livre'=> $livre],200);
     }
 
     /**

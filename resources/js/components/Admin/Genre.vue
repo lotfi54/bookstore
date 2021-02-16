@@ -1,11 +1,11 @@
 <template>
     <v-container >
  <v-data-table
-   
+     
     :headers="headers"
     :items="genres"
     sort-by="calories"
-    class="elevation-3"
+    class="elevation-0"
      item-key="name"
 
      :loading="loading"
@@ -28,8 +28,8 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="dark"
-              dark
+          color="indigo"
+              outlined
               class="mb-2"
               v-bind="attrs"
               v-on="on"

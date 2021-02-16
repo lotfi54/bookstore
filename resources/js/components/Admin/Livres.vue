@@ -3,7 +3,8 @@
         <v-toolbar
         flat
       >
-  <v-toolbar-title>Liste des livres</v-toolbar-title>
+  <v-toolbar-title 
+  >Liste des livres</v-toolbar-title>
 
   <v-divider
           class="mx-4"
@@ -19,8 +20,8 @@
         
         <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="dark"
-              dark
+              color="indigo"
+              outlined
               class="mb-2"
               v-bind="attrs"
               v-on="on"
@@ -47,17 +48,7 @@
                     ></v-text-field>
                   </v-col>
 
-                   <!-- <v-col cols="12">
-          <v-autocomplete
-            v-model="value"
-            :items="items"
-          
-
-            label="Nom de l'auteur"
-            
-            
-          ></v-autocomplete>
-        </v-col> -->
+           
       <v-col cols="12">
           <v-autocomplete
             v-model="editedItem.auteur"
@@ -77,6 +68,94 @@
             
           ></v-autocomplete>
         </v-col>
+         <v-col
+      cols="12"
+  
+    >
+      <v-dialog
+        ref="dialog"
+        v-model="modal"
+        :return-value.sync="date"
+        persistent
+        width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="editedItem.date_achat"
+            label="Date d'achat"
+           
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          v-model="editedItem.date_achat"
+          scrollable
+        >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="primary"
+            @click="modal = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
+            @click="$refs.dialog.save(date)"
+          >
+            OK
+          </v-btn>
+        </v-date-picker>
+      </v-dialog>
+    </v-col>
+
+          <v-col
+      cols="12"
+  
+    >
+      <v-dialog
+        ref="dialog2"
+        v-model="modal2"
+        :return-value.sync="date2"
+        persistent
+        width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="editedItem.date_parution"
+            label="Date de parution"
+           
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          v-model="editedItem.date_parution"
+          scrollable
+        >
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            color="primary"
+            @click="modal2 = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
+            @click="$refs.dialog2.save(date2)"
+          >
+            OK
+          </v-btn>
+        </v-date-picker>
+      </v-dialog>
+    </v-col>
+
                    <v-col
                     cols="12"
                     sm="12"
@@ -117,77 +196,10 @@
                     ></v-text-field>
                   </v-col>
 
-                    <v-col
-                    cols="12"
-                    sm="12"
-                    >
-                
-                <v-menu
-    ref="menu"
-    v-model="menu"
-    :close-on-content-click="false"
-    transition="scale-transition"
-    offset-y
-    min-width="auto"
-  >
-    <template v-slot:activator="{ on, attrs }">
-      <v-text-field
-        v-model="editedItem.date_achat"
-        label="Date de parution"
-        
-        readonly
-        v-bind="attrs"
-        v-on="on"
-      ></v-text-field>
-    </template>
-    <v-date-picker
-      ref="picker1"
-      v-model="editedItem.date_achat"
-      :max="new Date().toISOString().substr(0, 10)"
-      min="1950-01-01"
-   
-    >
-    </v-date-picker>
-             </v-menu>
-
-                  </v-col>
-
+     
              
 
-                        <v-col
-                    cols="12"
-                    sm="12"
-                    >
-                
-                <v-menu
-    ref="menu"
-    v-model="menu"
-    :close-on-content-click="false"
-    transition="scale-transition"
-    offset-y
-    min-width="auto"
-  >
-    <template v-slot:activator="{ on, attrs }">
-      <v-text-field
-        v-model="editedItem.date_parution"
-        label="Date de parution"
-        
-        readonly
-        v-bind="attrs"
-        v-on="on"
-      ></v-text-field>
-    </template>
-    <v-date-picker
-      ref="picker"
-      v-model="editedItem.date_parution"
-      :max="new Date().toISOString().substr(0, 10)"
-      min="1950-01-01"
-   
-    >
-    </v-date-picker>
-             </v-menu>
-
-                  </v-col>
+                     
 
                   <v-col
                     cols="12"
@@ -303,7 +315,10 @@ export default {
       snackbar: false,
       text:'',
       date:'',
+      date2:'',
       menu:false,
+      modal: false,
+      modal2: false,
       dialog: false,
       dialogDelete: false,
       auteurs:[],
@@ -352,6 +367,7 @@ export default {
         date (val) {
         this.dateFormatted = this.formatDate(this.date)
       },
+      
     },
 
     created () {
@@ -447,8 +463,8 @@ export default {
               .then(response => {
                   this.text = "Le genre a été modifié"; 
                   this.snackbar = true; 
-                //   Object.assign(this.genres.data[index], response.data.genre)
-                //    this.genres.push(response.data.genre)
+                //   Object.assign(this.livres.data[index], response.data.livre)
+                //    this.genres.push(response.data.livre)
               })
               .catch(err =>  {
                   console.log(err.response)
@@ -460,7 +476,7 @@ export default {
                 .then(response => {
                   this.text = "Le livre a été ajouté"; 
                   this.snackbar = true; 
-                  this.genres.push(response.data.genre)
+                  this.livres.push(response.data.livre)
               })
               .catch(err => {
                   console.log(err.response)
